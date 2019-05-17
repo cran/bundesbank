@@ -1,0 +1,38 @@
+2019-05-16  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.1-9
+
+        * man/getSeries.Rd: use \donttest instead of
+        \dontrun in examples
+
+2019-02-13  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.1-8
+
+        * R/getSeries.R (getSeries): new arguments
+        'return.class', 'verbose' and 'dest.dir'
+        (getSeries): 'start' and 'end' may now be years
+
+2019-01-10  Enrico Schumann  <es@enricoschumann.net>
+
+        * R/getSeries.R (getSeries): support realtime
+        data sets
+
+2019-01-01  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.1-7
+
+        * NAMESPACE: import utils::read.csv
+
+2016-02-25  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Version): 0.1-6
+
+        * small fixes in docs; clean up of code
+        files (removed comments)
+
+2013-04-24  Enrico Schumann  <es@enricoschumann.net>
+
+        * DESCRIPTION (Package): changed maintainer
+        email address, added keywords
+        (Version): 0.1-5
