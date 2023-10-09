@@ -50,7 +50,8 @@ getSeries(series,
 \details{
 
   The data can be downloaded in CSV-format from the
-  Bundesbank's website \url{http://www.bundesbank.de} .
+  Bundesbank's website
+  \url{https://www.bundesbank.de/en/statistics/time-series-databases} .
 
   If \code{dest.dir} is provided, the downloaded
   dataset gets a date prefix (today in format
@@ -80,6 +81,9 @@ getSeries(series,
   in particular \code{date}, which corresponds to the
   publication date.
 
+  If a download files, the function will print the error
+  message, but evaluate to \code{NULL} (invisibly).
+
 }
 \author{
 
@@ -90,35 +94,43 @@ getSeries(series,
 \examples{
 \donttest{
 ## (Internet connection required)
-  
+
 series <- "BBK01.ST0304" ## Eonia
 res <- getSeries(series) ## retrieve all available data
 res <- getSeries(series, start = "2012-01")
 res <- getSeries(series, end   = "2012-01")
 res <- getSeries(series, start = "2012-01", end = "2012-05")
 
-## make 'zoo' series
-if (require("zoo")) {
-    Eonia <- zoo(res$values, res$dates)
-    plot(Eonia)
+## If the download fails, 'res' will be NULL.
+## This typically happens when the website of the
+## Bundesbank is not available.
+
+if (!is.null(res)) {
+
+    ## make 'zoo' series
+    if (require("zoo")) {
+        Eonia <- zoo(res$values, res$dates)
+        plot(Eonia)
+    }
+
+    ## check comments
+    writeLines(strwrap(paste("- ", attr(res, "info")),
+               width = 60, exdent = 2))
+
+    ## real-time dataset (Gross domestic product)
+    gdp <- getSeries("BBKRT.A.DE.N.A.AG1.CA010.V.A")
+
+    ## use caching
+    ## ==> the example uses a temporary directory, but
+    ##     better is to use a less ephemeral destination,
+    ##     e.g. '~/Downloads/bundesbank'
+    gdp <- getSeries("BBKRT.A.DE.N.A.AG1.CA010.V.A",
+                     dest.dir = tempdir())
+    ### Downloading data from Bundesbank ... Done.
+
+    gdp <- getSeries("BBKRT.A.DE.N.A.AG1.CA010.V.A",
+                     dest.dir = tempdir())
+    ### Using cache ... Done.
 }
-
-## check comments
-writeLines(strwrap(paste("- ", attr(res, "info")), width = 60, exdent = 2))
-
-## real-time dataset (Gross domestic product)
-gdp <- getSeries("BBKRT.A.DE.N.A.AG1.CA010.V.A")
-
-## use caching
-## ==> the example uses a temporary directory, but
-##     better is to use a less ephemeral destination,
-##     e.g. '~/Downloads/bundesbank'
-gdp <- getSeries("BBKRT.A.DE.N.A.AG1.CA010.V.A",
-                 dest.dir = tempdir())
-### Downloading data from Bundesbank ... Done.
-
-gdp <- getSeries("BBKRT.A.DE.N.A.AG1.CA010.V.A",
-                 dest.dir = tempdir())
-### Using cache ... Done.
 }
 }
